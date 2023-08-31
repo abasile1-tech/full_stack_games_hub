@@ -28,6 +28,39 @@ const createRouter = function (collection) {
         res.json({ status: 500, error: err });
       });
   });
+
+  router.post("/", (req, res) => {
+    const newData = req.body;
+    newData.playingTime = Number(newData.playingTime);
+    newData.players.max = Number(newData.players.max);
+    newData.players.min = Number(newData.players.min);
+
+    collection
+      .insertOne(newData)
+      .then((doc) => {
+        //console.log(doc);
+        res.json(doc.ops[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({ status: 500, error: err });
+      });
+  });
+
+  router.delete("/:id", (req, res) => {
+    collection
+      .removeOne({ _id: ObjectId(req.params.id) })
+      .then((doc) => {
+        res.json(doc);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({ status: 500, error: err });
+      });
+  });
+
   return router;
 };
 
