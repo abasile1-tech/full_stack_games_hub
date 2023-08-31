@@ -31,9 +31,10 @@ const createRouter = function (collection) {
 
   router.post("/", (req, res) => {
     const newData = req.body;
+    console.log(newData);
     newData.playingTime = Number(newData.playingTime);
-    newData.players.max = Number(newData.players.max);
     newData.players.min = Number(newData.players.min);
+    newData.players.max = Number(newData.players.max);
 
     collection
       .insertOne(newData)
@@ -50,7 +51,7 @@ const createRouter = function (collection) {
 
   router.delete("/:id", (req, res) => {
     collection
-      .removeOne({ _id: ObjectId(req.params.id) })
+      .deleteOne({ _id: ObjectId(req.params.id) })
       .then((doc) => {
         res.json(doc);
       })
