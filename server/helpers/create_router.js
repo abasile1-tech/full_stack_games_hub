@@ -8,6 +8,11 @@ const createRouter = function (collection) {
       .toArray()
       .then((docs) => {
         res.json(docs);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({ status: 500, error: err });
       });
   });
   return router;
